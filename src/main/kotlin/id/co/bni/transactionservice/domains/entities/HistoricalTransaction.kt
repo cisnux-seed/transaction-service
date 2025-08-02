@@ -9,7 +9,7 @@ import org.springframework.data.relational.core.mapping.Table
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-@Table("transactions")
+@Table("historical_transaction")
 data class HistoricalTransaction(
     @Id
     val id: String,
