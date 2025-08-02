@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-service
+  namespace: one-gate-payment
+  labels:
+    app: transaction-service
+    version: "1.0.0"
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: transaction-service
+  template:
+    metadata:
+      labels:
+        app: transaction-service
+        version: "1.0.0"
+    spec:
+      containers:
+        - name: transaction-service
+          image: image-registry.openshift-image-registry.svc:5000/one-gate-payment/transaction-service:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: SERVER_PORT
+              value: "8080"
+            - name: DB_URL
+              value: "r2dbc:postgresql://postgresql-service:5432/one_gate_payment"
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: transaction-service-secrets
+                  key: db-username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: transaction-service-secrets
+                  key: db-password
+            - name: DATABASE_LOG_LEVEL
+              value: "INFO"
+            - name: SECURITY_LOG_LEVEL
+              value: "INFO"
+            - name: WEB_LOG_LEVEL
+              value: "INFO"
+            - name: ROOT_LOG_LEVEL
+              value: "ERROR"
+            - name: APP_LOG_LOCATION
+              value: "/var/log/transaction-service-log"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://otel-collector.observability-one-gate-payment.svc.cluster.local:4317"
+            - name: ENVIRONMENT
+              value: "production"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: log-volume
+              mountPath: /var/log/transaction-service-log
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          imagePullPolicy: Always
+      volumes:
+        - name: log-volume
+          persistentVolumeClaim:
+            claimName: payment-logs-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: payment-logs-pvc
+  namespace: one-gate-payment
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+  storageClassName: ssd-csi
