@@ -36,7 +36,7 @@ data class HistoricalTransaction(
     val paymentMethod: PaymentMethod? = null,
     val metadata: String? = null,
     @Column("is_accessible_from_external")
-    val isAccessibleFromExternal: Boolean,
+    val isAccessibleFromExternal: Boolean? = true,
     @Column("created_at")
     val createdAt: LocalDateTime,
     @Column("updated_at")
