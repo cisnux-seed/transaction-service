@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 interface HistoricalTransactionDao : CoroutineCrudRepository<HistoricalTransaction, String> {
     @Query(
         """
-        SELECT * FROM historical_transaction ORDER BY created_at DESC 
+        SELECT * FROM historical_transactions ORDER BY created_at DESC 
         LIMIT :limit OFFSET :offset
         """
     )
