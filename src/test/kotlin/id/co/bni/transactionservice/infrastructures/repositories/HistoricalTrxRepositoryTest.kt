@@ -48,7 +48,7 @@ class HistoricalTrxRepositoryTest {
             externalReference = "ext-ref-001",
             paymentMethod = PaymentMethod.GOPAY,
             metadata = null,
-            isAccessibleFromExternal = true,
+            isAccessibleExternal = true,
             createdAt = now,
             updatedAt = now
         )
@@ -67,7 +67,7 @@ class HistoricalTrxRepositoryTest {
             externalReference = "ext-ref-002",
             paymentMethod = PaymentMethod.SHOPEE_PAY,
             metadata = "{\"source\": \"mobile_app\"}",
-            isAccessibleFromExternal = false,
+            isAccessibleExternal = false,
             createdAt = now,
             updatedAt = now
         )
@@ -119,7 +119,7 @@ class HistoricalTrxRepositoryTest {
             externalReference = null,
             paymentMethod = PaymentMethod.GOPAY,
             metadata = null,
-            isAccessibleFromExternal = true,
+            isAccessibleExternal = true,
             createdAt = now,
             updatedAt = now
         )
@@ -156,7 +156,7 @@ class HistoricalTrxRepositoryTest {
             externalReference = "ext-ref-001",
             paymentMethod = PaymentMethod.SHOPEE_PAY,
             metadata = "{\"recipient\": \"Jane Doe\"}",
-            isAccessibleFromExternal = true,
+            isAccessibleExternal = true,
             createdAt = now,
             updatedAt = now
         )
@@ -181,7 +181,7 @@ class HistoricalTrxRepositoryTest {
         assertEquals("ext-ref-001", result.externalReference)
         assertEquals(PaymentMethod.SHOPEE_PAY, result.paymentMethod)
         assertEquals("{\"recipient\": \"Jane Doe\"}", result.metadata)
-        assertTrue(result.isAccessibleFromExternal)
+        assertTrue(result.isAccessibleExternal)
         coVerify { historicalTrxDao.findById("txn-001") }
     }
 
@@ -276,7 +276,7 @@ class HistoricalTrxRepositoryTest {
             externalReference = null,
             paymentMethod = null,
             metadata = null,
-            isAccessibleFromExternal = false,
+            isAccessibleExternal = false,
             createdAt = now,
             updatedAt = now
         )
@@ -291,7 +291,7 @@ class HistoricalTrxRepositoryTest {
         assertEquals(BigDecimal("1000.00"), result[0].amount)
         assertEquals(TransactionStatus.FAILED, result[0].transactionStatus)
         assertNull(result[0].paymentMethod)
-        assertFalse(result[0].isAccessibleFromExternal)
+        assertFalse(result[0].isAccessibleExternal)
         coVerify { historicalTrxDao.findAllPaginated(1, 999) }
     }
 }
