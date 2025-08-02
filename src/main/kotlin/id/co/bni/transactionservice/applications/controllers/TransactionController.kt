@@ -31,7 +31,7 @@ class TransactionController(
         @RequestHeader("X-Consumer-Custom-ID") externalServiceId: String,
         @RequestHeader("X-Forwarded-For") ipAddress: String,
         @RequestHeader("User-Agent") userAgent: String,
-        @RequestParam(value = "apikey", required = true) apiKey: String,
+        @RequestHeader(value = "X-API-Key") apiKey: String,
     ): WebResponse<List<TransactionResp>, PaginatedMetaResponse> {
         val traceId = UUID.randomUUID().toString()
 
@@ -68,7 +68,7 @@ class TransactionController(
         @RequestHeader("X-Consumer-Custom-ID") externalServiceId: String,
         @RequestHeader("X-Forwarded-For") ipAddress: String,
         @RequestHeader("User-Agent") userAgent: String,
-        @RequestParam(value = "apikey", required = true) apiKey: String,
+        @RequestParam(value = "X-API-Key") apiKey: String,
     ): WebResponse<HistoricalTransaction, MetaResponse> {
         val traceId = UUID.randomUUID().toString()
 
