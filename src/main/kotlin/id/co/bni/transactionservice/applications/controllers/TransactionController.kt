@@ -24,7 +24,7 @@ import java.util.UUID
 class TransactionController(
     private val transactionService: HistoricalTrxService
 ) : Loggable {
-    @GetMapping("/transactions", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/histories", produces = [MediaType.APPLICATION_JSON_VALUE])
     suspend fun getTransactions(
         @RequestParam(value = "page", defaultValue = "1") page: Int,
         @RequestParam(value = "size", defaultValue = "10") size: Int,
@@ -62,7 +62,7 @@ class TransactionController(
         }
     }
 
-    @GetMapping("/transactions/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @GetMapping("/histories/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     suspend fun getTransactionById(
         @PathVariable id: String,
         @RequestHeader("X-Consumer-Custom-ID") externalServiceId: String,
