@@ -79,6 +79,3 @@ otel:
       service:
         name: transaction-service
         namespace: one-gate-payment
-app:
-  kafka:
-    transaction-topic: transaction-events
