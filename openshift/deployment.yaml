@@ -55,10 +55,10 @@ spec:
           resources:
             requests:
               memory: "256Mi"
-              cpu: "500m"
+              cpu: "1"
             limits:
               memory: "512Mi"
-              cpu: "1000m"
+              cpu: "1500m"
           volumeMounts:
             - name: log-volume
               mountPath: /var/log/transaction-service-log
