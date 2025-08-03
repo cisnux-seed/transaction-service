@@ -1,9 +1,10 @@
-FROM quay.io/gradle/gradle:jdk21-alpine AS build
+FROM bellsoft/liberica-openjdk-alpine:21-jdk AS build
+RUN apk add --no-cache gradle
 WORKDIR /app
 COPY . .
 RUN gradle build --no-daemon --stacktrace --info --console=plain --refresh-dependencies -x test
 
-FROM ghcr.io/adoptium/temurin:21-jre-alpine
+FROM bellsoft/liberica-runtime-container:jre-21-slim-musl
 ARG APP_DIR=app
 WORKDIR /$APP_DIR
 COPY --from=build /app/build/libs/*.jar transaction.jar
