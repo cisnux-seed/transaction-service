@@ -16,10 +16,15 @@ class RedisConfig {
     fun reactiveRedisTemplate(
         connectionFactory: ReactiveRedisConnectionFactory
     ): ReactiveRedisTemplate<String, Any> {
+        val keySerializer = StringRedisSerializer()
+        val valueSerializer = GenericJackson2JsonRedisSerializer()
+
         val serializationContext = RedisSerializationContext
             .newSerializationContext<String, Any>()
-            .key(StringRedisSerializer())
-            .value(GenericJackson2JsonRedisSerializer())
+            .key(keySerializer)
+            .value(valueSerializer)
+            .hashKey(keySerializer)
+            .hashValue(valueSerializer)
             .build()
 
         return ReactiveRedisTemplate(connectionFactory, serializationContext)
