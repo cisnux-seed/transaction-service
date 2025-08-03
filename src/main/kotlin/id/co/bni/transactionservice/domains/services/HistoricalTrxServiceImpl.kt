@@ -25,8 +25,14 @@ class HistoricalTrxServiceImpl(
         page: Int,
         size: Int
     ): List<TransactionResp> {
+        if(page <= 0 || size <= 0) {
+            throw APIException.IllegalParameterException(
+                message = "Page and size must be greater than 0",
+                statusCode = HttpStatus.BAD_REQUEST.value()
+            )
+        }
         val limit = page * size
-        val offset = if (page > 0) (page - 1) * size else 0
+        val offset = (page - 1) * size
 
         val trx = historicalTrxRepository.getTransactions(
             limit = limit,
