@@ -38,6 +38,15 @@ spec:
                 secretKeyRef:
                   name: transaction-service-secrets
                   key: db-password
+            - name: REDIS_HOST
+              value: "redis-service"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: transaction-service-secrets
+                  key: redis-password
             - name: DATABASE_LOG_LEVEL
               value: "INFO"
             - name: SECURITY_LOG_LEVEL
