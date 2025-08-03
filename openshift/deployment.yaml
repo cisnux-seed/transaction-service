@@ -66,10 +66,8 @@ spec:
             - name: ENVIRONMENT
               value: "production"
           resources:
-            requests:
-              memory: "256Mi"
             limits:
-              memory: "512Mi"
+              memory: "1Gi"
           volumeMounts:
             - name: log-volume
               mountPath: /var/log/transaction-service-log
