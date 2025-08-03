@@ -29,7 +29,6 @@ dependencies {
 
     implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:$slf4jVersion")
     implementation(platform("io.opentelemetry:opentelemetry-bom:$openTelemetryVersion"))
     implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:$openTelemetryInstrumentationVersion"))
