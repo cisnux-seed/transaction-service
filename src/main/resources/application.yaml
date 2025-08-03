@@ -11,6 +11,12 @@ spring:
         period: 0
   jackson:
     property-naming-strategy: SNAKE_CASE
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+    generator:
+      write-bigdecimal-as-plain: true
   main:
     web-application-type: reactive
   r2dbc:
