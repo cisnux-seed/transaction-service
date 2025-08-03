@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package id.co.bni.transactionservice.domains.services
 
 import id.co.bni.transactionservice.commons.constants.CacheKeys
@@ -35,7 +37,7 @@ class HistoricalTrxServiceImpl(
         }
 
         val cacheKey = CacheKeys.transactionListKey(page, size)
-        var transactions = cacheService.get(cacheKey, List::class.java) as? List<TransactionResp>
+        var transactions = cacheService.get(cacheKey, List::class.java)
 
         if (transactions == null) {
             val limit = page * size
@@ -70,7 +72,7 @@ class HistoricalTrxServiceImpl(
         )
         apiLogRepository.insertApiLog(apiLog)
 
-        return transactions
+        return transactions as List<TransactionResp>
     }
 
     override suspend fun getTransactionById(
