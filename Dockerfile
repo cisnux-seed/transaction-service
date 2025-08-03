@@ -1,4 +1,4 @@
-FROM bellsoft/liberica-openjdk-alpine:21-jdk AS build
+FROM bellsoft/liberica-openjdk-alpine:21 AS build
 RUN apk add --no-cache gradle
 WORKDIR /app
 COPY . .
