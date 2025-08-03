@@ -65,9 +65,6 @@ spec:
               value: "http://otel-collector.observability-one-gate-payment.svc.cluster.local:4317"
             - name: ENVIRONMENT
               value: "production"
-          resources:
-            limits:
-              memory: "1Gi"
           volumeMounts:
             - name: log-volume
               mountPath: /var/log/transaction-service-log
