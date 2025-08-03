@@ -2,6 +2,7 @@ package id.co.bni.transactionservice.domains.services
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import id.co.bni.transactionservice.commons.exceptions.APIException
+import id.co.bni.transactionservice.commons.loggable.Loggable
 import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactive.awaitSingle
 import org.springframework.data.redis.core.ReactiveRedisTemplate
@@ -13,7 +14,7 @@ import java.time.Duration
 class CacheServiceImpl(
     private val redisTemplate: ReactiveRedisTemplate<String, Any>,
     private val objectMapper: ObjectMapper
-) : CacheService {
+) : CacheService, Loggable {
 
     override suspend fun <T> get(key: String, type: Class<T>): T? {
         return try {
@@ -25,8 +26,9 @@ class CacheServiceImpl(
                 else -> objectMapper.convertValue(value, type)
             }
         } catch (e: Exception) {
+            log.error(e.message, e)
             throw APIException.InternalServerException(
-                message = e.message ?: "internal server error",
+                message = "internal server error",
                 statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value()
             )
         }
@@ -38,8 +40,9 @@ class CacheServiceImpl(
                 .set(key, value, Duration.ofMinutes(ttlMinutes))
                 .awaitFirstOrNull()
         } catch (e: Exception) {
+            log.error(e.message, e)
             throw APIException.InternalServerException(
-                message = e.message ?: "internal server error",
+                message = "internal server error",
                 statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value()
             )
         }
@@ -49,6 +52,7 @@ class CacheServiceImpl(
         return try {
             redisTemplate.delete(key).awaitSingle() > 0
         } catch (e: Exception) {
+            log.error(e.message, e)
             false
         }
     }
@@ -62,6 +66,7 @@ class CacheServiceImpl(
                 0L
             }
         } catch (e: Exception) {
+            log.error(e.message, e)
             0L
         }
     }
