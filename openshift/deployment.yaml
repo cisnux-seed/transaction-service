@@ -17,6 +17,10 @@ spec:
         app: transaction-service
         version: "1.0.0"
     spec:
+      securityContext:
+        fsGroup: 185
+        runAsUser: 185
+        runAsGroup: 185
       containers:
         - name: transaction-service
           image: image-registry.openshift-image-registry.svc:5000/one-gate-payment/transaction-service:latest
@@ -87,12 +91,12 @@ spec:
       volumes:
         - name: log-volume
           persistentVolumeClaim:
-            claimName: payment-logs-pvc
+            claimName: transaction-logs-pvc
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: payment-logs-pvc
+  name: transaction-logs-pvc
   namespace: one-gate-payment
 spec:
   accessModes:
