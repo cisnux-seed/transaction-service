@@ -17,19 +17,22 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 class RedisConfig {
 
     @Bean
-    fun objectMapper(): ObjectMapper {
-        return ObjectMapper()
-            .registerModule(JavaTimeModule())
-            .registerKotlinModule()
-            .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+    fun redisObjectMapper(): ObjectMapper {
+        return ObjectMapper().apply {
+            registerModule(JavaTimeModule())
+            registerKotlinModule()
+            disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+        }
     }
 
     @Bean
     fun reactiveRedisTemplate(
-        connectionFactory: ReactiveRedisConnectionFactory
+        connectionFactory: ReactiveRedisConnectionFactory,
+        redisObjectMapper: ObjectMapper
     ): ReactiveRedisTemplate<String, Any> {
         val keySerializer = StringRedisSerializer()
-        val valueSerializer = GenericJackson2JsonRedisSerializer()
+        // Pass the custom ObjectMapper to GenericJackson2JsonRedisSerializer
+        val valueSerializer = GenericJackson2JsonRedisSerializer(redisObjectMapper)
 
         val serializationContext = RedisSerializationContext
             .newSerializationContext<String, Any>()
