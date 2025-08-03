@@ -14,10 +14,10 @@ interface ApiLogDao : CoroutineCrudRepository<ApiAccessLog, String> {
     @Query(
         """
         INSERT INTO api_access_logs (
-            id, external_service_id, api_key_id, endpoint, http_method, 
+            id, external_service_id, api_key_id, endpoint, http_method,
             ip_address, user_agent, response_status, created_at
         ) VALUES (
-            :id, :externalServiceId, :apiKeyId, :endpoint, :httpMethod:enum_http_method,
+            :id, :externalServiceId, :apiKeyId, :endpoint, :httpMethod:http_method_enum,
             :ipAddress, :userAgent, :responseStatus, :createdAt)
         """
     )
