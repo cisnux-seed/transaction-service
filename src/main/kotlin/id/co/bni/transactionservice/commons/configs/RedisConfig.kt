@@ -31,7 +31,6 @@ class RedisConfig {
         redisObjectMapper: ObjectMapper
     ): ReactiveRedisTemplate<String, Any> {
         val keySerializer = StringRedisSerializer()
-        // Pass the custom ObjectMapper to GenericJackson2JsonRedisSerializer
         val valueSerializer = GenericJackson2JsonRedisSerializer(redisObjectMapper)
 
         val serializationContext = RedisSerializationContext
