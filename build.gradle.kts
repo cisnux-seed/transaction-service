@@ -27,6 +27,7 @@ dependencies {
     val mockkVersion = "1.14.5"
     val springMockkVersion = "4.0.2"
 
+    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-slf4j:$slf4jVersion")
     implementation(platform("io.opentelemetry:opentelemetry-bom:$openTelemetryVersion"))
