@@ -17,7 +17,7 @@ interface ApiLogDao : CoroutineCrudRepository<ApiAccessLog, String> {
             id, external_service_id, api_key_id, endpoint, http_method,
             ip_address, user_agent, response_status, created_at
         ) VALUES (
-            :id, :externalServiceId, :apiKeyId, :endpoint, :httpMethod:http_method_enum,
+            :id, :externalServiceId, :apiKeyId, :endpoint, :httpMethod::http_method_enum,
             :ipAddress, :userAgent, :responseStatus, :createdAt)
         """
     )
