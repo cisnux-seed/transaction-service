@@ -83,6 +83,13 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 5
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "150m"
+              memory: "256Mi"
+            limits:
+              cpu: "300m"
+              memory: "512Mi"
       volumes:
         - name: log-volume
           persistentVolumeClaim:
